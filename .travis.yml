@@ -75,8 +75,18 @@ jobs:
         - docker
       script:
         - docker build .
+    - stage: dockerbuild
+      language: minimal
+      arch: 
+        - arm64
+      services:
+        - docker
+      script:
+        - docker build .    
     - stage: website
       language: node_js
+      arch:
+        - amd64
       node_js:
         - "8"
       cache:
@@ -86,16 +96,10 @@ jobs:
         - git config --global user.email "${GH_EMAIL}"
         - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
         - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages
-     stage: dockerbuild
-      language: minimal
-      arch:
-        - arm64
-      services:
-        - docker
-      script:
-        - docker build .
     - stage: website
       language: node_js
+      arch:
+        - arm64
       node_js:
         - "8"
       cache:
