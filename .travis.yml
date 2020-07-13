@@ -19,7 +19,8 @@ jobs:
       <<: *elixir-env
       env:
         - MIX_ENV=test
-      arch: amd64
+      arch:
+        - amd64
       script:
         - mix test
         - mix credo --ignore-checks Design
@@ -27,7 +28,8 @@ jobs:
       <<: *elixir-env
       env:
         - MIX_ENV=test
-      arch: arm64
+      arch:
+        - arm64
       script:
         - mix test
         - mix credo --ignore-checks Design    
@@ -67,7 +69,8 @@ jobs:
         - npm run cypress:run:all    
     - stage: dockerbuild
       language: minimal
-      arch: amd64
+      arch: 
+        - amd64
       services:
         - docker
       script:
@@ -85,7 +88,8 @@ jobs:
         - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages
      stage: dockerbuild
       language: minimal
-      arch: arm64
+      arch:
+        - arm64
       services:
         - docker
       script:
@@ -103,7 +107,8 @@ jobs:
         - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages    
     - stage: sourcedocs
       <<: *elixir-env
-      arch: amd64
+      arch:
+        - amd64
       script:
         - git config --global user.name "${GH_NAME}"
         - git config --global user.email "${GH_EMAIL}"
@@ -111,7 +116,8 @@ jobs:
         - GIT_USER="${GH_NAME}" mix publish_gh_pages
     - stage: sourcedocs
       <<: *elixir-env
-      arch: arm64
+      arch:
+        - arm64
       script:
         - git config --global user.name "${GH_NAME}"
         - git config --global user.email "${GH_EMAIL}"
