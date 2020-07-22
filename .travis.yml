@@ -85,8 +85,6 @@ jobs:
         - docker build .    
     - stage: website
       language: node_js
-      arch:
-        - amd64
       node_js:
         - "8"
       cache:
@@ -95,35 +93,11 @@ jobs:
         - git config --global user.name "${GH_NAME}"
         - git config --global user.email "${GH_EMAIL}"
         - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-        - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages
-    - stage: website
-      language: node_js
-      arch:
-        - arm64
-      node_js:
-        - "8"
-      cache:
-        yarn: true
-      script:
-        - git config --global user.name "${GH_NAME}"
-        - git config --global user.email "${GH_EMAIL}"
-        - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-        - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages    
+        - cd website && yarn install && GIT_USER="${GH_NAME}" yarn run publish-gh-pages 
     - stage: sourcedocs
       <<: *elixir-env
-      arch:
-        - amd64
       script:
         - git config --global user.name "${GH_NAME}"
         - git config --global user.email "${GH_EMAIL}"
         - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
         - GIT_USER="${GH_NAME}" mix publish_gh_pages
-    - stage: sourcedocs
-      <<: *elixir-env
-      arch:
-        - arm64
-      script:
-        - git config --global user.name "${GH_NAME}"
-        - git config --global user.email "${GH_EMAIL}"
-        - echo "machine github.com login ${GH_NAME} password ${GH_TOKEN}" > ~/.netrc
-        - GIT_USER="${GH_NAME}" mix publish_gh_pages    
